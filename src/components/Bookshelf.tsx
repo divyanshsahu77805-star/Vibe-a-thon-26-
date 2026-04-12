@@ -1,147 +1,145 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { scientists, type Scientist } from "@/data/scientists";
+import ScientistPortrait from "./ScientistPortrait";
 
 interface BookshelfProps {
   onSelectScientist: (scientist: Scientist) => void;
   selectedId: string | null;
 }
 
-const BookSpine = ({
-  scientist,
-  index,
-  isSelected,
-  isPulling,
-  onClick,
-}: {
-  scientist: Scientist;
-  index: number;
-  isSelected: boolean;
-  isPulling: boolean;
-  onClick: () => void;
-}) => {
-  return (
-    <motion.button
-      onClick={onClick}
-      className="relative flex-shrink-0 group"
-      style={{ perspective: "800px" }}
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 + 0.3 }}
-    >
-      <motion.div
-        className="relative w-16 sm:w-20 h-[280px] sm:h-[340px] rounded-r-sm shadow-lg flex items-center justify-center overflow-hidden"
-        style={{
-          background: `linear-gradient(135deg, ${scientist.spineColor}, ${scientist.spineColor}dd)`,
-          transformOrigin: "left center",
-          boxShadow: isSelected
-            ? `4px 0 20px ${scientist.spineAccent}66`
-            : "2px 0 8px rgba(0,0,0,0.4)",
-        }}
-        animate={
-          isPulling
-            ? { rotateY: -25, x: 30, scale: 1.05 }
-            : isSelected
-            ? { rotateY: -45, x: 60, scale: 1.1 }
-            : { rotateY: 0, x: 0, scale: 1 }
-        }
-        whileHover={!isSelected ? { rotateY: -8, x: 10 } : {}}
-        transition={{ type: "spring", stiffness: 100, damping: 15 }}
-      >
-        {/* Gold edge trim */}
-        <div
-          className="absolute left-0 top-0 bottom-0 w-1"
-          style={{ background: scientist.spineAccent }}
-        />
-        <div
-          className="absolute right-0 top-0 bottom-0 w-0.5"
-          style={{ background: `${scientist.spineAccent}88` }}
-        />
-
-        {/* Top and bottom decoration */}
-        <div
-          className="absolute top-3 left-2 right-2 h-px"
-          style={{ background: scientist.spineAccent }}
-        />
-        <div
-          className="absolute bottom-3 left-2 right-2 h-px"
-          style={{ background: scientist.spineAccent }}
-        />
-
-        {/* Scientist name rotated */}
-        <span
-          className="font-display text-xs sm:text-sm tracking-widest whitespace-nowrap"
-          style={{
-            writingMode: "vertical-rl",
-            textOrientation: "mixed",
-            color: scientist.spineAccent,
-            textShadow: "0 0 10px rgba(0,0,0,0.3)",
-          }}
-        >
-          {scientist.name}
-        </span>
-
-        {/* Embossed year at bottom */}
-        <span
-          className="absolute bottom-6 font-display text-[8px] sm:text-[10px] opacity-60"
-          style={{
-            writingMode: "vertical-rl",
-            color: scientist.spineAccent,
-          }}
-        >
-          {scientist.years.split("–")[0].replace("c. ", "")}
-        </span>
-      </motion.div>
-
-      {/* Book top edge */}
-      <div
-        className="absolute -top-1 left-1 right-0 h-1 rounded-t-sm opacity-40"
-        style={{ background: "hsl(var(--paper-dark))" }}
-      />
-    </motion.button>
-  );
-};
-
 const Bookshelf = ({ onSelectScientist, selectedId }: BookshelfProps) => {
-  const [pullingId, setPullingId] = useState<string | null>(null);
-
-  const handleSelect = (scientist: Scientist) => {
-    if (selectedId === scientist.id) return;
-    setPullingId(scientist.id);
-    setTimeout(() => {
-      onSelectScientist(scientist);
-      setPullingId(null);
-    }, 400);
-  };
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   return (
     <div className="relative">
-      {/* Shelf */}
-      <div className="flex items-end justify-center gap-1 sm:gap-2 px-4 pb-4 overflow-x-auto">
-        <AnimatePresence>
-          {scientists.map((s, i) => (
-            <BookSpine
-              key={s.id}
-              scientist={s}
-              index={i}
-              isSelected={selectedId === s.id}
-              isPulling={pullingId === s.id}
-              onClick={() => handleSelect(s)}
-            />
-          ))}
-        </AnimatePresence>
+      {/* "Index" header */}
+      <div className="flex items-center gap-3 mb-4">
+        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
+        <h2 className="font-display text-sm tracking-[0.3em] text-ink-light/60 uppercase">
+          Table of Contents
+        </h2>
+        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gold/40 to-transparent" />
       </div>
 
-      {/* Wooden shelf surface */}
+      {/* Index entries */}
       <div
-        className="h-5 sm:h-6 rounded-sm shadow-md"
+        className="rounded-lg border overflow-hidden"
         style={{
-          background: "linear-gradient(180deg, hsl(var(--wood-light)) 0%, hsl(var(--wood)) 40%, hsl(var(--leather)) 100%)",
-          boxShadow: "0 4px 12px rgba(0,0,0,0.3), inset 0 1px 0 hsl(var(--wood-light) / 0.5)",
+          borderColor: "hsl(var(--leather-light) / 0.4)",
+          background: "hsl(var(--paper) / 0.6)",
+          boxShadow: "inset 0 2px 10px hsl(var(--ink) / 0.05)",
         }}
-      />
-      {/* Shelf bracket shadow */}
-      <div className="h-2 bg-gradient-to-b from-black/10 to-transparent" />
+      >
+        {scientists.map((scientist, i) => {
+          const isSelected = selectedId === scientist.id;
+          const isHovered = hoveredId === scientist.id;
+
+          return (
+            <motion.button
+              key={scientist.id}
+              onClick={() => onSelectScientist(scientist)}
+              onHoverStart={() => setHoveredId(scientist.id)}
+              onHoverEnd={() => setHoveredId(null)}
+              className="w-full text-left relative group"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: i * 0.06, duration: 0.4 }}
+            >
+              {/* Hover/selected background */}
+              <motion.div
+                className="absolute inset-0 z-0"
+                animate={{
+                  opacity: isSelected ? 1 : isHovered ? 0.6 : 0,
+                  background: isSelected
+                    ? `linear-gradient(90deg, ${scientist.spineColor}22, transparent)`
+                    : `linear-gradient(90deg, hsl(var(--gold) / 0.08), transparent)`,
+                }}
+                transition={{ duration: 0.3 }}
+              />
+
+              <div className="relative z-10 flex items-center gap-4 px-4 sm:px-6 py-3 sm:py-4">
+                {/* Chapter number */}
+                <span
+                  className="font-display text-xs sm:text-sm w-8 text-center flex-shrink-0 transition-colors duration-300"
+                  style={{
+                    color: isSelected
+                      ? scientist.spineAccent
+                      : "hsl(var(--ink-light) / 0.5)",
+                  }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+
+                {/* Portrait thumbnail */}
+                <div className="flex-shrink-0">
+                  <ScientistPortrait scientist={scientist} size="sm" />
+                </div>
+
+                {/* Name and years */}
+                <div className="flex-1 min-w-0">
+                  <motion.span
+                    className="font-display text-sm sm:text-base tracking-wide block truncate transition-colors duration-300"
+                    style={{
+                      color: isSelected
+                        ? scientist.spineAccent
+                        : "hsl(var(--ink))",
+                    }}
+                  >
+                    {scientist.name}
+                  </motion.span>
+                  <span className="font-handwritten text-xs text-ink-light/50">
+                    {scientist.years}
+                  </span>
+                </div>
+
+                {/* Dotted line to page number */}
+                <div className="hidden sm:flex flex-1 items-end pb-1 mx-2">
+                  <div
+                    className="w-full border-b border-dotted"
+                    style={{ borderColor: "hsl(var(--ink-light) / 0.2)" }}
+                  />
+                </div>
+
+                {/* "Page number" / indicator */}
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <span className="font-display text-xs text-ink-light/40">
+                    p.{(i + 1) * 7}
+                  </span>
+                  {isSelected && (
+                    <motion.div
+                      layoutId="bookmark"
+                      className="w-1.5 h-6 rounded-full"
+                      style={{ background: scientist.spineAccent }}
+                      transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                    />
+                  )}
+                </div>
+              </div>
+
+              {/* Separator line */}
+              {i < scientists.length - 1 && (
+                <div
+                  className="mx-6 h-px"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, transparent 0%, hsl(var(--border) / 0.3) 20%, hsl(var(--border) / 0.3) 80%, transparent 100%)",
+                  }}
+                />
+              )}
+            </motion.button>
+          );
+        })}
+      </div>
+
+      {/* Decorative footer */}
+      <div className="flex items-center gap-2 mt-3 justify-center">
+        <span className="text-gold/30 text-xs">✦</span>
+        <span className="font-handwritten text-xs text-ink-light/30">
+          — select a legend to open their chapter —
+        </span>
+        <span className="text-gold/30 text-xs">✦</span>
+      </div>
     </div>
   );
 };

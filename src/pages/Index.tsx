@@ -5,6 +5,7 @@ import Bookshelf from "@/components/Bookshelf";
 import ScientistDetail from "@/components/ScientistDetail";
 import ParallaxPaper from "@/components/ParallaxPaper";
 import InkLoader from "@/components/InkLoader";
+import ThemeToggle from "@/components/ThemeToggle";
 
 const Index = () => {
   const [selected, setSelected] = useState<Scientist | null>(null);
@@ -26,6 +27,11 @@ const Index = () => {
   return (
     <ParallaxPaper className="min-h-screen bg-background">
       <div className="max-w-6xl mx-auto px-4 py-6 sm:py-10">
+        {/* Theme toggle — top right */}
+        <div className="flex justify-end mb-2">
+          <ThemeToggle />
+        </div>
+
         {/* Header */}
         <motion.header
           className="text-center mb-8 sm:mb-12"
@@ -48,7 +54,7 @@ const Index = () => {
           </p>
         </motion.header>
 
-        {/* Bookshelf */}
+        {/* Bookshelf / Index */}
         <motion.section
           className="mb-8 sm:mb-12"
           initial={{ opacity: 0, y: 40 }}
@@ -61,7 +67,7 @@ const Index = () => {
           />
         </motion.section>
 
-        {/* Scientist Detail — Book Content */}
+        {/* Scientist Detail — Page Content */}
         <AnimatePresence mode="wait">
           {selected && (
             <motion.section
