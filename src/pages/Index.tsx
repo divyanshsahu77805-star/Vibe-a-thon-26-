@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { Scientist } from "@/data/scientists";
 import Bookshelf from "@/components/Bookshelf";
@@ -10,6 +10,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 const Index = () => {
   const [selected, setSelected] = useState<Scientist | null>(null);
   const [loading, setLoading] = useState(true);
+  const detailRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.body.classList.add("custom-cursor");
@@ -19,6 +20,14 @@ const Index = () => {
       document.body.classList.remove("custom-cursor");
     };
   }, []);
+
+  const handleSelect = (scientist: Scientist) => {
+    setSelected(scientist);
+    // Scroll to detail after a brief delay for the animation to start
+    setTimeout(() => {
+      detailRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+  };
 
   if (loading) {
     return <InkLoader />;
@@ -62,26 +71,28 @@ const Index = () => {
           transition={{ delay: 0.3, duration: 0.8 }}
         >
           <Bookshelf
-            onSelectScientist={setSelected}
+            onSelectScientist={handleSelect}
             selectedId={selected?.id ?? null}
           />
         </motion.section>
 
-        {/* Scientist Detail — Page Content */}
-        <AnimatePresence mode="wait">
-          {selected && (
-            <motion.section
-              key={selected.id}
-              className="mb-12"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <ScientistDetail scientist={selected} />
-            </motion.section>
-          )}
-        </AnimatePresence>
+        {/* Scientist Detail */}
+        <div ref={detailRef}>
+          <AnimatePresence mode="wait">
+            {selected && (
+              <motion.section
+                key={selected.id}
+                className="mb-12"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <ScientistDetail scientist={selected} />
+              </motion.section>
+            )}
+          </AnimatePresence>
+        </div>
 
         {/* Empty state */}
         {!selected && (
