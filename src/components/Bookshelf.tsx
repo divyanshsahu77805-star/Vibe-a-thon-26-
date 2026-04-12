@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { scientists, type Scientist } from "@/data/scientists";
-import ScientistPortrait from "./ScientistPortrait";
+
 
 interface BookshelfProps {
   onSelectScientist: (scientist: Scientist) => void;
@@ -70,11 +70,6 @@ const Bookshelf = ({ onSelectScientist, selectedId }: BookshelfProps) => {
                 >
                   {String(i + 1).padStart(2, "0")}
                 </span>
-
-                {/* Portrait thumbnail */}
-                <div className="flex-shrink-0">
-                  <ScientistPortrait scientist={scientist} size="sm" />
-                </div>
 
                 {/* Name and years */}
                 <div className="flex-1 min-w-0">

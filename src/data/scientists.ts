@@ -1,17 +1,8 @@
-import newtonImg from "@/assets/scientist-newton.jpg";
-import einsteinImg from "@/assets/scientist-einstein.jpg";
-import eulerImg from "@/assets/scientist-euler.jpg";
-import gaussImg from "@/assets/scientist-gauss.jpg";
-import maxwellImg from "@/assets/scientist-maxwell.jpg";
-import feynmanImg from "@/assets/scientist-feynman.jpg";
-import noetherImg from "@/assets/scientist-noether.jpg";
-import archimedesImg from "@/assets/scientist-archimedes.jpg";
-
 export interface Scientist {
   id: string;
   name: string;
   years: string;
-  image: string;
+  icon: string;
   spineColor: string;
   spineAccent: string;
   vibeCheck: string;
@@ -27,7 +18,7 @@ export const scientists: Scientist[] = [
     id: "newton",
     name: "Isaac Newton",
     years: "1643–1727",
-    image: newtonImg,
+    icon: "F = ma",
     spineColor: "#8B4513",
     spineAccent: "#DAA520",
     vibeCheck:
@@ -69,7 +60,7 @@ export const scientists: Scientist[] = [
     id: "einstein",
     name: "Albert Einstein",
     years: "1879–1955",
-    image: einsteinImg,
+    icon: "E=mc²",
     spineColor: "#2F4F4F",
     spineAccent: "#B8860B",
     vibeCheck:
@@ -111,7 +102,7 @@ export const scientists: Scientist[] = [
     id: "euler",
     name: "Leonhard Euler",
     years: "1707–1783",
-    image: eulerImg,
+    icon: "eⁱᵖ+1=0",
     spineColor: "#4A3728",
     spineAccent: "#C0C0C0",
     vibeCheck:
@@ -153,7 +144,7 @@ export const scientists: Scientist[] = [
     id: "gauss",
     name: "Carl Friedrich Gauss",
     years: "1777–1855",
-    image: gaussImg,
+    icon: "Σ1…100",
     spineColor: "#3B3B3B",
     spineAccent: "#FFD700",
     vibeCheck:
@@ -195,7 +186,7 @@ export const scientists: Scientist[] = [
     id: "maxwell",
     name: "James Clerk Maxwell",
     years: "1831–1879",
-    image: maxwellImg,
+    icon: "∇×E",
     spineColor: "#1B3F5F",
     spineAccent: "#E8C872",
     vibeCheck:
@@ -236,7 +227,7 @@ export const scientists: Scientist[] = [
     id: "feynman",
     name: "Richard Feynman",
     years: "1918–1988",
-    image: feynmanImg,
+    icon: "〰→●",
     spineColor: "#5C1A1A",
     spineAccent: "#D4A574",
     vibeCheck:
@@ -278,7 +269,7 @@ export const scientists: Scientist[] = [
     id: "noether",
     name: "Emmy Noether",
     years: "1882–1935",
-    image: noetherImg,
+    icon: "S↔C",
     spineColor: "#4A2D5C",
     spineAccent: "#D4AF37",
     vibeCheck:
@@ -318,7 +309,7 @@ export const scientists: Scientist[] = [
     id: "archimedes",
     name: "Archimedes",
     years: "c. 287–212 BC",
-    image: archimedesImg,
+    icon: "ΕΥΡΗΚΑ",
     spineColor: "#6B4423",
     spineAccent: "#CD853F",
     vibeCheck:
