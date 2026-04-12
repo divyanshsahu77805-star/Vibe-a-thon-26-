@@ -58,6 +58,57 @@
     --sidebar-border: 30 20% 70%;
     --sidebar-ring: 30 50% 25%;
   }
+
+  .dark {
+    --background: 25 20% 10%;
+    --foreground: 39 30% 85%;
+
+    --card: 25 18% 14%;
+    --card-foreground: 39 30% 85%;
+
+    --popover: 25 18% 14%;
+    --popover-foreground: 39 30% 85%;
+
+    --primary: 39 30% 75%;
+    --primary-foreground: 25 20% 10%;
+
+    --secondary: 25 15% 22%;
+    --secondary-foreground: 39 30% 85%;
+
+    --muted: 25 12% 20%;
+    --muted-foreground: 30 10% 55%;
+
+    --accent: 35 25% 30%;
+    --accent-foreground: 39 30% 85%;
+
+    --destructive: 0 65% 45%;
+    --destructive-foreground: 39 30% 92%;
+
+    --border: 25 15% 25%;
+    --input: 25 15% 25%;
+    --ring: 39 30% 75%;
+
+    --paper: 25 18% 14%;
+    --paper-dark: 25 15% 18%;
+    --ink: 39 25% 82%;
+    --ink-light: 30 15% 60%;
+    --ink-math: 220 55% 65%;
+    --ink-physics: 0 50% 60%;
+    --gold: 43 65% 55%;
+    --leather: 25 40% 35%;
+    --leather-light: 25 30% 45%;
+    --wood: 25 35% 20%;
+    --wood-light: 30 25% 35%;
+
+    --sidebar-background: 25 18% 12%;
+    --sidebar-foreground: 39 30% 85%;
+    --sidebar-primary: 39 30% 75%;
+    --sidebar-primary-foreground: 25 20% 10%;
+    --sidebar-accent: 25 15% 22%;
+    --sidebar-accent-foreground: 39 30% 85%;
+    --sidebar-border: 25 15% 25%;
+    --sidebar-ring: 39 30% 75%;
+  }
 }
 
 @layer base {
@@ -175,4 +226,45 @@ body.custom-cursor * {
 
 .watermark-physics {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='40' fill='none' stroke='rgba(180,60,60,0.06)' stroke-width='1'/%3E%3Cellipse cx='100' cy='100' rx='80' ry='30' fill='none' stroke='rgba(180,60,60,0.05)' stroke-width='1' transform='rotate(30,100,100)'/%3E%3Cellipse cx='100' cy='100' rx='80' ry='30' fill='none' stroke='rgba(180,60,60,0.05)' stroke-width='1' transform='rotate(-30,100,100)'/%3E%3Cpath d='M20,150 Q60,120 100,150 Q140,180 180,150' fill='none' stroke='rgba(180,60,60,0.05)' stroke-width='1'/%3E%3C/svg%3E");
+}
+
+/* Page turn animation */
+@keyframes page-turn-in {
+  0% {
+    transform: perspective(1200px) rotateY(90deg);
+    transform-origin: left center;
+    opacity: 0;
+  }
+  100% {
+    transform: perspective(1200px) rotateY(0deg);
+    transform-origin: left center;
+    opacity: 1;
+  }
+}
+
+@keyframes page-turn-out {
+  0% {
+    transform: perspective(1200px) rotateY(0deg);
+    transform-origin: left center;
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(1200px) rotateY(-90deg);
+    transform-origin: left center;
+    opacity: 0;
+  }
+}
+
+/* Page shadow for realism */
+.page-shadow {
+  box-shadow: 
+    inset 40px 0 40px -20px hsl(var(--ink) / 0.05),
+    inset -5px 0 15px -5px hsl(var(--ink) / 0.08),
+    5px 5px 20px hsl(var(--ink) / 0.15);
+}
+
+/* Dark mode cursor override */
+.dark body.custom-cursor,
+.dark body.custom-cursor * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23c9b896' stroke-width='1.5'%3E%3Cpath d='M17 3a2.83 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z'/%3E%3C/svg%3E") 2 22, auto;
 }
