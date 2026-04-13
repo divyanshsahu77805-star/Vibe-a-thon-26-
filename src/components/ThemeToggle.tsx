@@ -10,44 +10,51 @@ const ThemeToggle = () => {
   });
 
   useEffect(() => {
+    document.documentElement.style.transition = "background-color 0.6s ease, color 0.5s ease";
+    document.body.style.transition = "background-color 0.6s ease, color 0.5s ease";
+
     if (isDark) {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
+
+    const timer = setTimeout(() => {
+      document.documentElement.style.transition = "";
+      document.body.style.transition = "";
+    }, 700);
+
+    return () => clearTimeout(timer);
   }, [isDark]);
 
   return (
     <motion.button
       onClick={() => setIsDark(!isDark)}
-      className="relative w-14 h-8 rounded-full border-2 overflow-hidden flex items-center transition-colors duration-500"
+      className="relative w-12 h-6 rounded-full flex items-center"
       style={{
-        borderColor: "hsl(var(--gold) / 0.5)",
         background: isDark
-          ? "linear-gradient(135deg, hsl(25 20% 12%), hsl(25 15% 18%))"
-          : "linear-gradient(135deg, hsl(39 40% 85%), hsl(39 35% 78%))",
+          ? "hsl(var(--ink) / 0.15)"
+          : "hsl(var(--ink) / 0.1)",
+        border: "1px solid hsl(var(--ink) / 0.2)",
       }}
-      whileHover={{ scale: 1.05 }}
+      whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.95 }}
       title={isDark ? "Switch to light theme" : "Switch to dark theme"}
     >
-      {/* Sliding knob */}
       <motion.div
-        className="absolute w-6 h-6 rounded-full flex items-center justify-center shadow-md"
-        animate={{
-          x: isDark ? 26 : 2,
-        }}
-        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+        className="w-5 h-5 rounded-full flex items-center justify-center"
+        animate={{ x: isDark ? 24 : 2 }}
+        transition={{ type: "spring", stiffness: 500, damping: 30 }}
         style={{
           background: isDark
-            ? "linear-gradient(135deg, hsl(220 20% 25%), hsl(220 15% 35%))"
-            : "linear-gradient(135deg, hsl(43 70% 55%), hsl(43 60% 45%))",
+            ? "hsl(var(--ink) / 0.9)"
+            : "hsl(var(--gold) / 0.9)",
           boxShadow: isDark
-            ? "0 0 8px rgba(100, 150, 255, 0.3)"
-            : "0 0 8px rgba(200, 150, 50, 0.4)",
+            ? "0 0 6px hsl(var(--ink) / 0.3)"
+            : "0 0 6px hsl(var(--gold) / 0.4)",
         }}
       >
-        <span className="text-xs">{isDark ? "🌙" : "☀️"}</span>
+        <span className="text-[10px] leading-none">{isDark ? "🌙" : "☀️"}</span>
       </motion.div>
     </motion.button>
   );

@@ -11,7 +11,7 @@ interface ScientistDetailProps {
 
 const ScrollSection = ({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const isInView = useInView(ref, { once: false, margin: "-50px" });
 
   return (
     <motion.div
@@ -94,7 +94,7 @@ const ScientistDetail = ({ scientist }: ScientistDetailProps) => {
                 <MathPhysicsToggle field={field} onToggle={setField} />
               </div>
 
-              <div className={`relative transition-all duration-700 rounded-md p-4 ${field === "math" ? "watermark-math" : "watermark-physics"}`}>
+              <div className={`relative transition-all duration-700 rounded-md p-4 ${field === "math" ? "watermark-math-strong" : "watermark-physics-strong"}`}>
                 <AnimatePresence mode="wait">
                   <motion.ul
                     key={field}
