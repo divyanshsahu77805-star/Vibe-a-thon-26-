@@ -15,24 +15,27 @@ const ScientistPortrait = ({ scientist, size = "lg" }: ScientistPortraitProps) =
     <motion.div
       className={`relative ${sizeClasses} rounded-lg overflow-hidden flex-shrink-0 border-2 shadow-lg group flex items-center justify-center`}
       style={{
-        borderColor: "hsl(var(--leather-light))",
+        borderColor: "hsl(var(--leather))",
         background: "hsl(var(--paper-dark))",
       }}
       whileHover={{ scale: 1.05 }}
     >
-      {/* Icon text */}
+      {/* Icon text — darkened for visibility */}
       <span
-        className="font-display tracking-tight text-center leading-tight select-none"
-        style={{ color: scientist.spineAccent }}
+        className="font-display tracking-tight text-center leading-tight select-none font-bold"
+        style={{
+          color: "hsl(var(--ink))",
+          textShadow: "0 1px 2px hsl(var(--ink) / 0.3)",
+        }}
       >
         {scientist.icon}
       </span>
 
       {/* Corner decorations */}
-      <div className="absolute top-1 left-1 w-3 h-3 border-t border-l border-gold/40 z-30" />
-      <div className="absolute top-1 right-1 w-3 h-3 border-t border-r border-gold/40 z-30" />
-      <div className="absolute bottom-1 left-1 w-3 h-3 border-b border-l border-gold/40 z-30" />
-      <div className="absolute bottom-1 right-1 w-3 h-3 border-b border-r border-gold/40 z-30" />
+      <div className="absolute top-1 left-1 w-3 h-3 border-t-2 border-l-2 border-gold/50 z-30" />
+      <div className="absolute top-1 right-1 w-3 h-3 border-t-2 border-r-2 border-gold/50 z-30" />
+      <div className="absolute bottom-1 left-1 w-3 h-3 border-b-2 border-l-2 border-gold/50 z-30" />
+      <div className="absolute bottom-1 right-1 w-3 h-3 border-b-2 border-r-2 border-gold/50 z-30" />
     </motion.div>
   );
 };
